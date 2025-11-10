@@ -37,7 +37,7 @@ func ConfigDB() (*sql.DB, error) {
 }
 
 func main() {
-	db, err := Config()
+	db, err := ConfigDB()
 	if err != nil {
 		panic(err)
 	}
