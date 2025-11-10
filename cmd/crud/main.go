@@ -27,7 +27,7 @@ func NewProduct(name string, price float64) *Product {
 	}
 }
 
-func Config() (*sql.DB, error) {
+func ConfigDB() (*sql.DB, error) {
 	db, err := sql.Open("mysql", "root:root@tcp(localhost:3306)/goproduct")
 	if err != nil {
 		return nil, err
