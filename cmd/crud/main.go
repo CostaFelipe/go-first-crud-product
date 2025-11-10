@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/google/uuid"
@@ -38,5 +37,29 @@ func Config() (*sql.DB, error) {
 }
 
 func main() {
-	fmt.Println("Hello, world!")
+	db, err := Config()
+	if err != nil {
+		panic(err)
+	}
+
+	defer db.Close()
+
+	p := NewProduct("Laranja KG", 5.99)
+	err = insertProduct(db, p)
+}
+
+func insertProduct(db *sql.DB, product *Product) error {
+	stmt, err := db.Prepare("insert into products(id, name, price) values(?, ?, ?)")
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+
+	_, err = stmt.Exec(product.ID, product.Name, product.Price)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
