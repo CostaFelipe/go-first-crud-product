@@ -100,3 +100,17 @@ func selectProduct(db *sql.DB, id string) (*Product, error) {
 	return &p, nil
 
 }
+
+func removeProduct(db *sql.DB, id string) error {
+	stmt, err := db.Prepare("delete from products where id=?")
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+	_, err = stmt.Exec(id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
