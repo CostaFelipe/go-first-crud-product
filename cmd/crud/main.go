@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 
+	"github.com/CostaFelipe/go-first-crud-productexample/cmd/internal/db"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/google/uuid"
 )
@@ -27,17 +28,8 @@ func NewProduct(name string, price float64) *Product {
 	}
 }
 
-func ConfigDB() (*sql.DB, error) {
-	db, err := sql.Open("mysql", "root:root@tcp(localhost:3306)/goproduct")
-	if err != nil {
-		return nil, err
-	}
-
-	return db, nil
-}
-
 func main() {
-	db, err := ConfigDB()
+	db, err := db.Connect()
 	if err != nil {
 		panic(err)
 	}
