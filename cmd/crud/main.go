@@ -3,8 +3,8 @@ package main
 import (
 	"database/sql"
 
-	"github.com/CostaFelipe/go-first-crud-productexample/cmd/internal/db"
-	"github.com/CostaFelipe/go-first-crud-productexample/cmd/pkg/id"
+	"github.com/CostaFelipe/go-first-crud-productexample/internal/db"
+	"github.com/CostaFelipe/go-first-crud-productexample/pkg/id"
 	_ "github.com/go-sql-driver/mysql"
 )
 
