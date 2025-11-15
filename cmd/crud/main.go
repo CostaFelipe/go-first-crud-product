@@ -4,23 +4,9 @@ import (
 	"database/sql"
 
 	"github.com/CostaFelipe/go-first-crud-productexample/internal/db"
-	"github.com/CostaFelipe/go-first-crud-productexample/pkg/id"
+	"github.com/CostaFelipe/go-first-crud-productexample/internal/product"
 	_ "github.com/go-sql-driver/mysql"
 )
-
-type Product struct {
-	ID    id.ID
-	Name  string
-	Price float64
-}
-
-func NewProduct(name string, price float64) *Product {
-	return &Product{
-		ID:    id.NewID(),
-		Name:  name,
-		Price: price,
-	}
-}
 
 func main() {
 	db, err := db.Connect()
@@ -30,7 +16,8 @@ func main() {
 
 	defer db.Close()
 
-	p := NewProduct("Laranja KG", 5.99)
+	p := product.NewProduct("Laranja KG", 5)
+
 	err = insertProduct(db, p)
 
 	if err != nil {
@@ -38,7 +25,7 @@ func main() {
 	}
 }
 
-func insertProduct(db *sql.DB, product *Product) error {
+func insertProduct(db *sql.DB, product *product.Product) error {
 	stmt, err := db.Prepare("insert into products(id, name, price) values(?, ?, ?)")
 	if err != nil {
 		return err
