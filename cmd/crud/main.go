@@ -4,25 +4,19 @@ import (
 	"database/sql"
 
 	"github.com/CostaFelipe/go-first-crud-productexample/cmd/internal/db"
+	"github.com/CostaFelipe/go-first-crud-productexample/cmd/pkg/id"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/google/uuid"
 )
 
 type Product struct {
-	ID    string
+	ID    id.ID
 	Name  string
 	Price float64
 }
 
-type ID = uuid.UUID
-
-func NewID() ID {
-	return ID(uuid.New())
-}
-
 func NewProduct(name string, price float64) *Product {
 	return &Product{
-		ID:    NewID().String(),
+		ID:    id.NewID(),
 		Name:  name,
 		Price: price,
 	}
