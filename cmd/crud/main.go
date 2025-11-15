@@ -41,7 +41,7 @@ func insertProduct(db *sql.DB, product *product.Product) error {
 	return nil
 }
 
-func updateProduct(db *sql.DB, product *Product) error {
+func updateProduct(db *sql.DB, product *product.Product) error {
 	stmt, err := db.Prepare("update products set name=?, price=? where id=?")
 	if err != nil {
 		return err
@@ -70,14 +70,14 @@ func removeProduct(db *sql.DB, id string) error {
 	return nil
 }
 
-func selectProduct(db *sql.DB, id string) (*Product, error) {
+func selectProduct(db *sql.DB, id string) (*product.Product, error) {
 	stmt, err := db.Prepare("select id, name, price from products where id=?")
 	if err != nil {
 		return nil, err
 	}
 
 	defer stmt.Close()
-	var p Product
+	var p product.Product
 
 	err = db.QueryRow(id).Scan(&p.ID, &p.Name, &p.Price)
 	if err != nil {
@@ -88,17 +88,17 @@ func selectProduct(db *sql.DB, id string) (*Product, error) {
 
 }
 
-func selectAllProducts(db *sql.DB) ([]Product, error) {
+func selectAllProducts(db *sql.DB) ([]product.Product, error) {
 	rows, err := db.Query("select id, name, price from products")
 	if err != nil {
 		return nil, err
 	}
 
 	defer rows.Close()
-	var products []Product
+	var products []product.Product
 
 	for rows.Next() {
-		var p Product
+		var p product.Product
 		err = rows.Scan(&p.ID, &p.Name, &p.Price)
 		if err != nil {
 			return nil, err
