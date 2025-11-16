@@ -4,6 +4,7 @@ import (
 	"database/sql"
 
 	"github.com/CostaFelipe/go-first-crud-productexample/internal/db"
+	"github.com/CostaFelipe/go-first-crud-productexample/internal/infra/database"
 	"github.com/CostaFelipe/go-first-crud-productexample/internal/product"
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -18,27 +19,11 @@ func main() {
 
 	p := product.NewProduct("Laranja KG", 5)
 
-	err = insertProduct(db, p)
+	err = database.NewProduct(db).Create(p)
 
 	if err != nil {
 		panic(err)
 	}
-}
-
-func insertProduct(db *sql.DB, product *product.Product) error {
-	stmt, err := db.Prepare("insert into products(id, name, price) values(?, ?, ?)")
-	if err != nil {
-		return err
-	}
-
-	defer stmt.Close()
-
-	_, err = stmt.Exec(product.ID, product.Name, product.Price)
-	if err != nil {
-		return err
-	}
-
-	return nil
 }
 
 func updateProduct(db *sql.DB, product *product.Product) error {
