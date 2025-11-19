@@ -55,24 +55,6 @@ func removeProduct(db *sql.DB, id string) error {
 	return nil
 }
 
-func selectProduct(db *sql.DB, id string) (*product.Product, error) {
-	stmt, err := db.Prepare("select id, name, price from products where id=?")
-	if err != nil {
-		return nil, err
-	}
-
-	defer stmt.Close()
-	var p product.Product
-
-	err = db.QueryRow(id).Scan(&p.ID, &p.Name, &p.Price)
-	if err != nil {
-		return nil, err
-	}
-
-	return &p, nil
-
-}
-
 func selectAllProducts(db *sql.DB) ([]product.Product, error) {
 	rows, err := db.Query("select id, name, price from products")
 	if err != nil {
