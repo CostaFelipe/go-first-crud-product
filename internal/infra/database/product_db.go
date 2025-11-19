@@ -27,3 +27,20 @@ func (p *Product) Create(product *product.Product) error {
 	}
 	return nil
 }
+
+func (p *Product) FindById(id string) (*product.Product, error) {
+	stmt, err := p.DB.Prepare("select id, name, price from products where id = ?")
+	if err != nil {
+		return nil, err
+	}
+	defer stmt.Close()
+
+	var product product.Product
+	err = stmt.QueryRow(id).Scan(&product.ID, &product.Name, &product.Price)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &product, nil
+}
