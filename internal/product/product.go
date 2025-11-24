@@ -5,10 +5,10 @@ import "github.com/CostaFelipe/go-first-crud-productexample/pkg/id"
 type Product struct {
 	ID    id.ID
 	Name  string
-	Price int
+	Price float64
 }
 
-func NewProduct(name string, price int) *Product {
+func NewProduct(name string, price float64) *Product {
 	return &Product{
 		ID:    id.NewID(),
 		Name:  name,
