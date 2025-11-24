@@ -72,3 +72,25 @@ func (p *Product) Delete(id string) error {
 	}
 	return nil
 }
+
+func (p *Product) FindAll() ([]product.Product, error) {
+	rows, err := p.DB.Query("select id, name, price from products")
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+	var products []product.Product
+
+	for rows.Next() {
+		var p product.Product
+		err = rows.Scan(&p.ID, &p.Name, &p.Price)
+		if err != nil {
+			return nil, err
+		}
+
+		products = append(products, p)
+	}
+
+	return products, err
+}
