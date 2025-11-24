@@ -58,3 +58,17 @@ func (p *Product) Update(product *product.Product) error {
 	}
 	return nil
 }
+
+func (p *Product) Delete(id string) error {
+	stmt, err := p.DB.Prepare("delete from products where id=?")
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+	_, err = stmt.Exec(id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
