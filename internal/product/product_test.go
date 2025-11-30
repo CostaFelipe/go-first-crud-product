@@ -7,7 +7,8 @@ import (
 )
 
 func TestNewProduct(t *testing.T) {
-	p := NewProduct("Laranja KG", 5)
+	p, err := NewProduct("Laranja KG", 5)
+	assert.Nil(t, err)
 	assert.NotNil(t, p)
 	assert.NotEmpty(t, p.ID)
 	assert.NotEmpty(t, p.Name)

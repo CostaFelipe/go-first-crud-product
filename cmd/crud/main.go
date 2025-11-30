@@ -15,7 +15,7 @@ func main() {
 
 	defer db.Close()
 
-	p := product.NewProduct("Laranja KG", 5)
+	p, err := product.NewProduct("Laranja KG", 5)
 
 	err = database.NewProduct(db).Create(p)
 

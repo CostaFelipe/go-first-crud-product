@@ -8,10 +8,10 @@ type Product struct {
 	Price float64 `json:"price"`
 }
 
-func NewProduct(name string, price float64) *Product {
+func NewProduct(name string, price float64) (*Product, error) {
 	return &Product{
 		ID:    id.NewID(),
 		Name:  name,
 		Price: price,
-	}
+	}, nil
 }
