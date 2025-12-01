@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/CostaFelipe/go-first-crud-productexample/internal/db"
 	"github.com/CostaFelipe/go-first-crud-productexample/internal/infra/database"
 	"github.com/CostaFelipe/go-first-crud-productexample/internal/product"
@@ -18,7 +20,7 @@ func main() {
 	p, err := product.NewProduct("Laranja KG", 5)
 
 	err = database.NewProduct(db).Create(p)
-
+	fmt.Println(p.ID)
 	if err != nil {
 		panic(err)
 	}
