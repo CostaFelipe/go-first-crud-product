@@ -1,14 +1,17 @@
 package main
 
 import (
-	"fmt"
+	"net/http"
 
 	"github.com/CostaFelipe/go-first-crud-productexample/internal/db"
-	"github.com/CostaFelipe/go-first-crud-productexample/internal/product"
+	"github.com/CostaFelipe/go-first-crud-productexample/internal/infra/database"
+	"github.com/CostaFelipe/go-first-crud-productexample/internal/infra/handlers"
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
+	mux := http.NewServeMux()
+
 	db, err := db.Connect()
 	if err != nil {
 		panic(err)
@@ -16,11 +19,10 @@ func main() {
 
 	defer db.Close()
 
-	p, err := product.NewProduct("Laranja KG", 5)
+	productDB := database.NewProduct(db)
+	productHandler := handlers.NewProductHandler(productDB)
 
-	//err = database.NewProduct(db).Create(p)
-	fmt.Println(p.ID)
-	if err != nil {
-		panic(err)
-	}
+	mux.HandleFunc("/products", productHandler.CreateProductHandle)
+
+	http.ListenAndServe(":3000", mux)
 }
