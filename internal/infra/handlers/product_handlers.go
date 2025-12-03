@@ -40,4 +40,17 @@ func (h *ProductHandler) CreateProductHandle(w http.ResponseWriter, r *http.Requ
 	}
 
 	w.WriteHeader(http.StatusCreated)
+	w.Header().Set("Content-type", "application/json")
+	json.NewEncoder(w).Encode(p)
+}
+
+func (h *ProductHandler) GetProduct(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Query().Get("id")
+	if id == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write([]byte(id))
 }
