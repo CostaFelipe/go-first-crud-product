@@ -51,6 +51,13 @@ func (h *ProductHandler) GetProduct(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	product, err := h.ProductDB.FindById(id)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
 	w.Header().Set("Content-Type", "application/json")
-	w.Write([]byte(id))
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(product)
 }
