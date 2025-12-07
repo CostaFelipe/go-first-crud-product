@@ -19,7 +19,7 @@ func NewProductHandler(db database.ProductInterface) *ProductHandler {
 	}
 }
 
-func (h *ProductHandler) CreateProductHandle(w http.ResponseWriter, r *http.Request) {
+func (h *ProductHandler) CreateProductHandler(w http.ResponseWriter, r *http.Request) {
 	var prod dto.ProductInput
 	err := json.NewDecoder(r.Body).Decode(&prod)
 	if err != nil {
@@ -44,7 +44,7 @@ func (h *ProductHandler) CreateProductHandle(w http.ResponseWriter, r *http.Requ
 	json.NewEncoder(w).Encode(p)
 }
 
-func (h *ProductHandler) GetProduct(w http.ResponseWriter, r *http.Request) {
+func (h *ProductHandler) GetProductHandlerr(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 	if id == "" {
 		w.WriteHeader(http.StatusBadRequest)

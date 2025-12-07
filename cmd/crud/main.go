@@ -22,8 +22,8 @@ func main() {
 	productDB := database.NewProduct(db)
 	productHandler := handlers.NewProductHandler(productDB)
 
-	mux.HandleFunc("/products/create", productHandler.CreateProductHandle)
-	mux.HandleFunc("/products/id", productHandler.GetProduct)
+	mux.HandleFunc("/products/create", productHandler.CreateProductHandler)
+	mux.HandleFunc("/products/id", productHandler.GetProductHandler)
 
 	http.ListenAndServe(":3000", mux)
 }
