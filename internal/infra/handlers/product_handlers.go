@@ -44,7 +44,7 @@ func (h *ProductHandler) CreateProductHandler(w http.ResponseWriter, r *http.Req
 	json.NewEncoder(w).Encode(p)
 }
 
-func (h *ProductHandler) GetProductHandlerr(w http.ResponseWriter, r *http.Request) {
+func (h *ProductHandler) GetProductHandler(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 	if id == "" {
 		w.WriteHeader(http.StatusBadRequest)
