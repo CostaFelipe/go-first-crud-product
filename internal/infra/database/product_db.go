@@ -66,6 +66,7 @@ func (p *Product) Delete(id string) error {
 	}
 
 	defer stmt.Close()
+
 	_, err = stmt.Exec(id)
 	if err != nil {
 		return err
