@@ -1,6 +1,10 @@
 package product
 
-import "github.com/CostaFelipe/go-first-crud-productexample/pkg/id"
+import (
+	"errors"
+
+	"github.com/CostaFelipe/go-first-crud-productexample/pkg/id"
+)
 
 type Product struct {
 	ID    id.ID   `json:"id"`
@@ -8,10 +12,45 @@ type Product struct {
 	Price float64 `json:"price"`
 }
 
+var (
+	errorIDIsRequired  = errors.New("ID is required")
+	errInvalidID       = errors.New("ID is invalid")
+	errorNameRequired  = errors.New("Name is required")
+	errorPriceRequired = errors.New("Price is required")
+)
+
 func NewProduct(name string, price float64) (*Product, error) {
-	return &Product{
+	product := &Product{
 		ID:    id.NewID(),
 		Name:  name,
 		Price: price,
-	}, nil
+	}
+
+	err := product.Validation()
+	if err != nil {
+		return nil, err
+	}
+
+	return product, nil
+
+}
+
+func (p *Product) Validation() error {
+	if p.ID.String() == "" {
+		return errorIDIsRequired
+	}
+	if _, err := id.ParseID(p.ID.String()); err != nil {
+		return errInvalidID
+	}
+	if p.Name == "" {
+		return errorNameRequired
+	}
+	if p.Price == 0 {
+		return errorPriceRequired
+	}
+	if p.Price < 0 {
+		return errorPriceRequired
+	}
+
+	return nil
 }
