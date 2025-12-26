@@ -1,6 +1,9 @@
 package config
 
-import "github.com/go-chi/jwtauth"
+import (
+	"github.com/go-chi/jwtauth"
+	"github.com/spf13/viper"
+)
 
 type Config struct {
 	DBDriver     string `mapstructure:"DB_DRIVER"`
@@ -13,4 +16,29 @@ type Config struct {
 	JWTSecret    string `mapstructure:"JWT_SECRET"`
 	JWTExpiresIN int    `mapstructure:"JWT_EXPIRES_IN"`
 	TokenAuth    *jwtauth.JWTAuth
+}
+
+func LoadCondif(path string) (*Config, error) {
+	var cfg Config
+
+	viper.SetConfigName("app_config")
+	viper.SetConfigType("env")
+	viper.AddConfigPath(path)
+	viper.SetConfigFile(".env")
+	viper.AutomaticEnv()
+
+	err := viper.ReadInConfig()
+	if err != nil {
+		panic(err)
+	}
+
+	err = viper.Unmarshal(&cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	cfg.TokenAuth = jwtauth.New("hs256", []byte(cfg.JWTSecret), nil)
+
+	return &cfg, nil
+
 }
