@@ -20,19 +20,22 @@ var (
 )
 
 func NewProduct(name string, price float64) (*Product, error) {
+	id, err := id.NewID()
+	if err != nil {
+		return nil, err
+	}
 	product := &Product{
-		ID:    id.NewID(),
+		ID:    id,
 		Name:  name,
 		Price: price,
 	}
 
-	err := product.Validation()
+	err = product.Validation()
 	if err != nil {
 		return nil, err
 	}
 
 	return product, nil
-
 }
 
 func (p *Product) Validation() error {

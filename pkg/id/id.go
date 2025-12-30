@@ -4,8 +4,9 @@ import "github.com/google/uuid"
 
 type ID = uuid.UUID
 
-func NewID() ID {
-	return ID(uuid.New())
+func NewID() (ID, error) {
+	u, err := uuid.NewRandom()
+	return ID(u), err
 }
 
 func ParseID(s string) (ID, error) {
