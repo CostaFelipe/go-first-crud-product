@@ -84,3 +84,15 @@ func (h *ProductHandler) DeleteProduct(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 
 }
+
+func (h *ProductHandler) GetProducts(w http.ResponseWriter, r *http.Request) {
+	products, err := h.ProductDB.FindAll()
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(products)
+}
