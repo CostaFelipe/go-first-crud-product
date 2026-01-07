@@ -24,6 +24,7 @@ func main() {
 
 	mux.HandleFunc("/products/create", productHandler.CreateProductHandler)
 	mux.HandleFunc("/products/id", productHandler.GetProductHandler)
+	mux.HandleFunc("/products", productHandler.GetProducts)
 
 	http.ListenAndServe(":3000", mux)
 }
