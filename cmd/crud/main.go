@@ -6,11 +6,15 @@ import (
 	"github.com/CostaFelipe/go-first-crud-productexample/internal/db"
 	"github.com/CostaFelipe/go-first-crud-productexample/internal/infra/database"
 	"github.com/CostaFelipe/go-first-crud-productexample/internal/infra/handlers"
+	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/middleware"
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
-	mux := http.NewServeMux()
+
+	r := chi.NewRouter()
+	r.Use(middleware.Logger)
 
 	db, err := db.Connect()
 	if err != nil {
@@ -22,10 +26,10 @@ func main() {
 	productDB := database.NewProduct(db)
 	productHandler := handlers.NewProductHandler(productDB)
 
-	mux.HandleFunc("/products/create", productHandler.CreateProductHandler)
-	mux.HandleFunc("/products/id", productHandler.GetProductHandler)
-	mux.HandleFunc("/products", productHandler.GetProducts)
-	mux.HandleFunc("/products/id", productHandler.DeleteProduct)
+	r.Post("/products/create", productHandler.CreateProductHandler)
+	r.Get("/products/id", productHandler.GetProductHandler)
+	r.Get("/products", productHandler.GetProducts)
+	r.Delete("/products/id", productHandler.DeleteProduct)
 
-	http.ListenAndServe(":3000", mux)
+	http.ListenAndServe(":3000", r)
 }
